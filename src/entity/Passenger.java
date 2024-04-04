@@ -46,4 +46,12 @@ public class Passenger {
     public void setIdentity(String identity) {
         this.identity = identity;
     }
+
+    @Override
+    public String toString() {
+        return "Passenger" + "\nID: " + id +
+                "\nName: " + name + " " + lastName +
+                "\nIdentity: " + identity +
+                "\n";
+    }
 }

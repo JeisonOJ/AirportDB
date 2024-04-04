@@ -40,11 +40,9 @@ public class Airplane {
 
     @Override
     public String toString() {
-        StringBuilder message = new StringBuilder();
-        message.append("Airplane").append("\nID: ").append(id)
-                .append("\nModel: ").append(model)
-                .append("\nCapacity: ").append(capacity)
-                .append("\n");
-        return message.toString();
+        return "Airplane" + "\nID: " + id +
+                "\nModel: " + model +
+                "\nCapacity: " + capacity +
+                "\n";
     }
 }
