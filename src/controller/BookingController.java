@@ -2,12 +2,13 @@ package controller;
 
 import entity.Booking;
 import model.BookingModel;
+import utils.Utils;
 
 import javax.swing.*;
 
 public class BookingController {
 
-    public static BookingModel instanceModel(){
+    public static BookingModel instanceModel() {
         return new BookingModel();
     }
 
@@ -23,14 +24,48 @@ public class BookingController {
         return message.toString();
     }
 
-    public static void showAllBookings(){
-        JOptionPane.showMessageDialog(null,listAllBookings());
+    public static void showAllBookings() {
+        JOptionPane.showMessageDialog(null, listAllBookings());
     }
 
     public static void createBooking() {
         try {
-            String date = JOptionPane.showInputDialog(null, "Enter the booking date");
-            String seat = JOptionPane.showInputDialog(null, "Enter the booking departure");
+            String[] letters = new String[4];
+            Object[] numbers = new Object[10];
+            boolean[][] seats = new boolean[letters.length][numbers.length];
+            for (int i = 0; i < 4; i++) {
+                letters[i] = Utils.numberToLetter(i);
+            }
+            for (int i = 0; i < 10; i++) {
+                numbers[i] = i;
+            }
+            String seatLetter = (String) JOptionPane.showInputDialog(null,
+                    "select row",
+                    "",
+                    JOptionPane.QUESTION_MESSAGE, null,
+                    letters,
+                    letters[0]);
+            int seatNumber = (int) JOptionPane.showInputDialog(null,
+                    "select seat number",
+                    "",
+                    JOptionPane.QUESTION_MESSAGE, null,
+                    numbers,
+                    numbers[0]);
+            if (!seats[Utils.letterToNumber(seatLetter)][seatNumber]) {
+                seats[Utils.letterToNumber(seatLetter)][seatNumber] = true;
+                System.out.println("su asiento ahora es" + seats[Utils.letterToNumber(seatLetter)][seatNumber]);
+            } else {
+                System.out.println("asiento ocupado");
+            }
+
+            for (int i = 0; i < letters.length; i++) {
+                for (int j = 0; j < numbers.length; j++) {
+                    System.out.println(seats[i][j]);
+                }
+            }
+            String date = JOptionPane.showInputDialog(null, "Enter the date");
+            String seat = JOptionPane.showInputDialog(null, "Enter the seat");
+            seat = seatLetter + seatNumber;
             int flightId = Integer.parseInt(JOptionPane.showInputDialog(null, "Enter the flight id"));
             int passengerId = Integer.parseInt(JOptionPane.showInputDialog(null, "Enter the passenger id"));
 
@@ -51,6 +86,7 @@ public class BookingController {
         }
 
     }
+
     public static void updateBooking() {
         try {
             int number = Integer.parseInt(JOptionPane.showInputDialog(null, listAllBookings() + "\nEnter id to update"));
@@ -116,26 +152,26 @@ public class BookingController {
         }
     }
 
-    public static void menu(){
+    public static void menu() {
         String option;
         String message = """
-                            ....::::::   BOOKINGS MENU   ::::::....
-                            1. Show Bookings.
-                            2. Create booking.
-                            3. Update booking.
-                            4. Delete booking.
-                            5. Find booking.
-                            6. Find booking and details.
-                            7. Exit.
-                                            
-                            ENTER THE OPTION TO CONTINUE...
-                            """;
+                ....::::::   BOOKINGS MENU   ::::::....
+                1. Show Bookings.
+                2. Create booking.
+                3. Update booking.
+                4. Delete booking.
+                5. Find booking.
+                6. Find booking and details.
+                7. Exit.
+                                
+                ENTER THE OPTION TO CONTINUE...
+                """;
         do {
             option = JOptionPane.showInputDialog(null, message);
             if (option == null) {
                 break;
             }
-            switch (option){
+            switch (option) {
                 case "1":
                     showAllBookings();
                     break;
