@@ -1,9 +1,14 @@
 package controller;
 
 import entity.Airplane;
+import jdk.jshell.execution.Util;
 import model.AirplaneModel;
+import utils.Utils;
 
 import javax.swing.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class AirplaneController {
 
@@ -51,8 +56,16 @@ public class AirplaneController {
 
     public static void updateAirplane() {
         try {
-            int number = Integer.parseInt(JOptionPane.showInputDialog(null, listAllAirplanes() + "\nEnter id to update"));
-            Airplane airplane = (Airplane) instanceModel().findById(number);
+            Object[] options = Utils.listToArray(instanceModel().findAll());
+            System.out.println(options[0]);
+            Airplane airplane = (Airplane) JOptionPane.showInputDialog(null,
+                    "select options",
+                    "update",
+                    JOptionPane.QUESTION_MESSAGE,null,
+                    options,
+                    options[0]);
+//            int number = Integer.parseInt(JOptionPane.showInputDialog(null, listAllAirplanes() + "\nEnter id to update"));
+//            Airplane airplane = (Airplane) instanceModel().findById(number);
             String model = JOptionPane.showInputDialog(null, "Enter the airplane model", airplane.getModel());
             int capacity = Integer.parseInt(JOptionPane.showInputDialog(null, "Enter the airplane capacity", airplane.getCapacity()));
             airplane.setModel(model);
