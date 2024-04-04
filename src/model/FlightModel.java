@@ -2,6 +2,7 @@ package model;
 
 import database.CRUD;
 import database.ConfigDB;
+import entity.Airplane;
 import entity.Flight;
 
 import java.sql.Connection;
@@ -135,4 +136,28 @@ public class FlightModel implements CRUD {
         }
         return flight;
     }
+
+    public Object findByIdAndShowDetails(int id) {
+        Connection connection = ConfigDB.openConnection();
+        Flight flight = null;
+        String sql = "select * from flights inner join airplanes on flights.id_airplane = airplanes.id where flights.id = ?;";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                Airplane airplane = new Airplane(rs.getInt("airplanes.id"),rs.getString("model"),rs.getInt("capacity"));
+                flight = new Flight(rs.getInt("flights.id"),rs.getString("destination"), rs.getString("departure_date"),rs.getString("departure_time"),rs.getInt("id_airplane"));
+                flight.setAirplane(airplane);
+            }
+
+        } catch (SQLException e) {
+            System.out.println("FindById: error in database\n" + e.getMessage());
+        } finally {
+            ConfigDB.closeConnection();
+        }
+        return flight;
+    }
+
 }

@@ -102,6 +102,20 @@ public class FlightController {
         }
     }
 
+    public static void findFlightByIdAndShowDetails() {
+        try {
+            int number = Integer.parseInt(JOptionPane.showInputDialog(null, "Enter id to find an flight"));
+            Flight flight = (Flight) instanceModel().findByIdAndShowDetails(number);
+            if (flight != null) {
+                JOptionPane.showMessageDialog(null, flight);
+            } else {
+                JOptionPane.showMessageDialog(null, "This flight doesn't exist");
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Enter a number");
+        }
+    }
+
     public static void menu(){
         String option;
         String message = """
@@ -111,7 +125,8 @@ public class FlightController {
                             3. Update flight.
                             4. Delete flight.
                             5. Find flight.
-                            6. Exit.
+                            6. Find flight and details.
+                            7. Exit.
                                             
                             ENTER THE OPTION TO CONTINUE...
                             """;
@@ -136,8 +151,11 @@ public class FlightController {
                 case "5":
                     findFlightById();
                     break;
+                case "6":
+                    findFlightByIdAndShowDetails();
+                    break;
             }
-        } while (!option.equals("6"));
+        } while (!option.equals("7"));
     }
 
 }
