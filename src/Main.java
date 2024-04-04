@@ -1,5 +1,6 @@
 import controller.AirplaneController;
 import controller.FlightController;
+import controller.PassengerController;
 import database.ConfigDB;
 
 import javax.swing.*;
@@ -31,7 +32,7 @@ public class Main {
                     FlightController.menu();
                     break;
                 case "3":
-                    System.out.println("passenger");
+                    PassengerController.menu();
                     break;
                 case "4":
                     System.out.println("booking");
