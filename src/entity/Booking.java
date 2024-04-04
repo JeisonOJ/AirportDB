@@ -78,11 +78,11 @@ public class Booking {
     @Override
     public String toString() {
         StringBuilder message = new StringBuilder();
-        message.append("Booking").append("\nId: ").append(id)
-                .append("\nBooking date: ").append(bookingDate)
-                .append("\nSeat: ").append(seat)
-                .append("\nPassenger id: ").append(idPassenger)
-                .append("\nFlight id: ").append(idFlight)
+        message.append("Booking").append("\n Id: ").append(id)
+                .append("\n Booking date: ").append(bookingDate)
+                .append("\n Seat: ").append(seat)
+                .append("\n Passenger id: ").append(idPassenger)
+                .append("\n Flight id: ").append(idFlight)
                 .append("\n");
         if(passenger != null){
             message.append("\n").append(passenger);

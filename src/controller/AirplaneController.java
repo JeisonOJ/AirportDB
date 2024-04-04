@@ -59,8 +59,8 @@ public class AirplaneController {
             Object[] options = Utils.listToArray(instanceModel().findAll());
             System.out.println(options[0]);
             Airplane airplane = (Airplane) JOptionPane.showInputDialog(null,
-                    "select options",
-                    "update",
+                    "Select airplane to update",
+                    "Update",
                     JOptionPane.QUESTION_MESSAGE,null,
                     options,
                     options[0]);

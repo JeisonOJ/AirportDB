@@ -2,6 +2,7 @@ package controller;
 
 import entity.Passenger;
 import model.PassengerModel;
+import utils.Utils;
 
 import javax.swing.*;
 
@@ -53,11 +54,19 @@ public class PassengerController {
 
     public static void updatePassenger() {
         try {
-            int number = Integer.parseInt(JOptionPane.showInputDialog(null, listAllPassengers() + "\nEnter id to update"));
-            Passenger passenger = (Passenger) instanceModel().findById(number);
-            String name = JOptionPane.showInputDialog(null, "Enter the passenger name");
-            String lastName = JOptionPane.showInputDialog(null, "Enter the passenger last name");
-            String identity = JOptionPane.showInputDialog(null, "Enter the passenger identity");
+//            int number = Integer.parseInt(JOptionPane.showInputDialog(null, listAllPassengers() + "\nEnter id to update"));
+//            Passenger passenger = (Passenger) instanceModel().findById(number);
+            Object[] options = Utils.listToArray(instanceModel().findAll());
+            System.out.println(options[0]);
+            Passenger passenger = (Passenger) JOptionPane.showInputDialog(null,
+                    "Select passenger to update",
+                    "Update",
+                    JOptionPane.QUESTION_MESSAGE,null,
+                    options,
+                    options[0]);
+            String name = JOptionPane.showInputDialog(null, "Enter the passenger name",passenger.getName());
+            String lastName = JOptionPane.showInputDialog(null, "Enter the passenger last name",passenger.getLastName());
+            String identity = JOptionPane.showInputDialog(null, "Enter the passenger identity",passenger.getIdentity());
 
             passenger.setName(name);
             passenger.setLastName(lastName);

@@ -49,9 +49,9 @@ public class Passenger {
 
     @Override
     public String toString() {
-        return "Passenger" + "\nId: " + id +
-                "\nName: " + name + " " + lastName +
-                "\nIdentity: " + identity +
+        return "Passenger" + "\n Id: " + id +
+                "\n Name: " + name + " " + lastName +
+                "\n Identity: " + identity +
                 "\n";
     }
 }
