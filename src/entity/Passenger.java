@@ -49,7 +49,7 @@ public class Passenger {
 
     @Override
     public String toString() {
-        return "Passenger" + "\nID: " + id +
+        return "Passenger" + "\nId: " + id +
                 "\nName: " + name + " " + lastName +
                 "\nIdentity: " + identity +
                 "\n";

@@ -69,13 +69,14 @@ public class Flight {
     @Override
     public String toString() {
         StringBuilder message = new StringBuilder();
-        message.append("Flight").append("\nID: ").append(id)
+        message.append("Flight").append("\nId: ").append(id)
                 .append("\nDestination: ").append(destination)
                 .append("\nDeparture date: ").append(departureDate)
                 .append("\nDeparture time: ").append(departureTime)
-                .append("\nAirplane id: ").append(idAirplane);
+                .append("\nAirplane id: ").append(idAirplane)
+                .append("\n");
                 if(airplane != null){
-                    message.append(airplane);
+                    message.append("\n").append(airplane);
                 }
                 message.append("\n");
         return message.toString();
