@@ -1,4 +1,5 @@
 import controller.AirplaneController;
+import controller.BookingController;
 import controller.FlightController;
 import controller.PassengerController;
 import database.ConfigDB;
@@ -35,7 +36,7 @@ public class Main {
                     PassengerController.menu();
                     break;
                 case "4":
-                    System.out.println("booking");
+                    BookingController.menu();
                     break;
             }
         } while (!option.equals("5"));

@@ -74,4 +74,22 @@ public class Booking {
     public void setFlight(Flight flight) {
         this.flight = flight;
     }
+
+    @Override
+    public String toString() {
+        StringBuilder message = new StringBuilder();
+        message.append("Booking").append("\nID: ").append(id)
+                .append("\nBooking date: ").append(bookingDate)
+                .append("\nSeat: ").append(seat)
+                .append("\nPassenger id: ").append(idPassenger)
+                .append("\nFlight id: ").append(idFlight);
+        if(passenger != null){
+            message.append(passenger);
+        }
+        if(flight != null){
+            message.append(flight);
+        }
+        message.append("\n");
+        return message.toString();
+    }
 }

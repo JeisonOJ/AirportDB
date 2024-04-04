@@ -75,8 +75,7 @@ public class Flight {
                 .append("\nDeparture time: ").append(departureTime)
                 .append("\nAirplane id: ").append(idAirplane);
                 if(airplane != null){
-                    message.append("\nAirplane model: ").append(airplane.getModel())
-                            .append("\nAirplane capacity: ").append(airplane.getCapacity());
+                    message.append(airplane);
                 }
                 message.append("\n");
         return message.toString();
