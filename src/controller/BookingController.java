@@ -64,8 +64,8 @@ public class BookingController {
                 }
             }
             String date = JOptionPane.showInputDialog(null, "Enter the date");
-            String seat = JOptionPane.showInputDialog(null, "Enter the seat");
-            seat = seatLetter + seatNumber;
+//            String seat = JOptionPane.showInputDialog(null, "Enter the seat");
+            String seat = seatLetter + seatNumber;
             int flightId = Integer.parseInt(JOptionPane.showInputDialog(null, "Enter the flight id"));
             int passengerId = Integer.parseInt(JOptionPane.showInputDialog(null, "Enter the passenger id"));
 
@@ -89,12 +89,20 @@ public class BookingController {
 
     public static void updateBooking() {
         try {
-            int number = Integer.parseInt(JOptionPane.showInputDialog(null, listAllBookings() + "\nEnter id to update"));
-            Booking booking = (Booking) instanceModel().findById(number);
-            String date = JOptionPane.showInputDialog(null, "Enter the booking date");
-            String seat = JOptionPane.showInputDialog(null, "Enter the booking departure");
-            int flightId = Integer.parseInt(JOptionPane.showInputDialog(null, "Enter the flight id"));
-            int passengerId = Integer.parseInt(JOptionPane.showInputDialog(null, "Enter the passenger id"));
+//            int number = Integer.parseInt(JOptionPane.showInputDialog(null, listAllBookings() + "\nEnter id to update"));
+//            Booking booking = (Booking) instanceModel().findById(number);
+            Object[] options = Utils.listToArray(instanceModel().findAll());
+            System.out.println(options[0]);
+            Booking booking = (Booking) JOptionPane.showInputDialog(null,
+                    "Select booking to update",
+                    "Update",
+                    JOptionPane.QUESTION_MESSAGE,null,
+                    options,
+                    options[0]);
+            String date = JOptionPane.showInputDialog(null, "Enter the booking date",booking.getBookingDate());
+            String seat = JOptionPane.showInputDialog(null, "Enter the booking departure",booking.getSeat());
+            int flightId = Integer.parseInt(JOptionPane.showInputDialog(null, "Enter the flight id",booking.getIdFlight()));
+            int passengerId = Integer.parseInt(JOptionPane.showInputDialog(null, "Enter the passenger id",booking.getIdPassenger()));
 
             booking.setBookingDate(date);
             booking.setSeat(seat);

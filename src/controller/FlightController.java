@@ -2,6 +2,7 @@ package controller;
 
 import entity.Flight;
 import model.FlightModel;
+import utils.Utils;
 
 import javax.swing.*;
 
@@ -53,8 +54,16 @@ public class FlightController {
     }
     public static void updateFlight() {
         try {
-            int number = Integer.parseInt(JOptionPane.showInputDialog(null, listAllFlights() + "\nEnter id to update"));
-            Flight flight = (Flight) instanceModel().findById(number);
+//            int number = Integer.parseInt(JOptionPane.showInputDialog(null, listAllFlights() + "\nEnter id to update"));
+//            Flight flight = (Flight) instanceModel().findById(number);
+            Object[] options = Utils.listToArray(instanceModel().findAll());
+            System.out.println(options[0]);
+            Flight flight = (Flight) JOptionPane.showInputDialog(null,
+                    "Select flight to update",
+                    "Update",
+                    JOptionPane.QUESTION_MESSAGE,null,
+                    options,
+                    options[0]);
             String destination = JOptionPane.showInputDialog(null, "Enter the flight destination",flight.getDestination());
             String departureDate = JOptionPane.showInputDialog(null, "Enter the flight departure date",flight.getDepartureDate());
             String departureTime = JOptionPane.showInputDialog(null, "Enter the flight departure time",flight.getDepartureTime());
