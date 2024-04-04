@@ -65,4 +65,20 @@ public class Flight {
     public void setAirplane(Airplane airplane) {
         this.airplane = airplane;
     }
+
+    @Override
+    public String toString() {
+        StringBuilder message = new StringBuilder();
+        message.append("Flight").append("\nID: ").append(id)
+                .append("\nDestination: ").append(destination)
+                .append("\nDeparture date: ").append(departureDate)
+                .append("\nDeparture time: ").append(departureTime)
+                .append("\nAirplane id: ").append(idAirplane);
+                if(airplane != null){
+                    message.append("\nAirplane model: ").append(airplane.getModel())
+                            .append("\nAirplane capacity: ").append(airplane.getCapacity());
+                }
+                message.append("\n");
+        return message.toString();
+    }
 }

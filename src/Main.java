@@ -1,4 +1,5 @@
 import controller.AirplaneController;
+import controller.FlightController;
 import database.ConfigDB;
 
 import javax.swing.*;
@@ -27,10 +28,13 @@ public class Main {
                     AirplaneController.menu();
                     break;
                 case "2":
+                    FlightController.menu();
                     break;
                 case "3":
+                    System.out.println("passenger");
                     break;
                 case "4":
+                    System.out.println("booking");
                     break;
             }
         } while (!option.equals("5"));
