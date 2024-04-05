@@ -1,6 +1,8 @@
 package controller;
 
 import entity.Booking;
+import entity.Flight;
+import entity.Passenger;
 import model.BookingModel;
 import utils.Utils;
 
@@ -28,55 +30,52 @@ public class BookingController {
         JOptionPane.showMessageDialog(null, listAllBookings());
     }
 
+    /**
+     * Create and validate seats available in a flight
+     */
     public static void createBooking() {
         try {
-            String[] letters = new String[4];
-            Object[] numbers = new Object[10];
-            boolean[][] seats = new boolean[letters.length][numbers.length];
-            for (int i = 0; i < 4; i++) {
-                letters[i] = Utils.numberToLetter(i);
-            }
-            for (int i = 0; i < 10; i++) {
-                numbers[i] = i;
-            }
-            String seatLetter = (String) JOptionPane.showInputDialog(null,
-                    "select row",
-                    "",
-                    JOptionPane.QUESTION_MESSAGE, null,
-                    letters,
-                    letters[0]);
-            int seatNumber = (int) JOptionPane.showInputDialog(null,
-                    "select seat number",
-                    "",
-                    JOptionPane.QUESTION_MESSAGE, null,
-                    numbers,
-                    numbers[0]);
-            if (!seats[Utils.letterToNumber(seatLetter)][seatNumber]) {
-                seats[Utils.letterToNumber(seatLetter)][seatNumber] = true;
-                System.out.println("su asiento ahora es" + seats[Utils.letterToNumber(seatLetter)][seatNumber]);
-            } else {
-                System.out.println("asiento ocupado");
-            }
+            Object[] flights = Utils.listToArray(FlightController.instanceModel().findAll());
+            Object[] passengers = Utils.listToArray(PassengerController.instanceModel().findAll());
+            Passenger passenger = (Passenger) JOptionPane.showInputDialog(null,
+                    "Select passenger",
+                    "Passengers",
+                    JOptionPane.QUESTION_MESSAGE,null,
+                    passengers,
+                    passengers[0]);
+            Flight flight = (Flight) JOptionPane.showInputDialog(null,
+                    "Select flight",
+                    "Flights",
+                    JOptionPane.QUESTION_MESSAGE,null,
+                    flights,
+                    flights[0]);
+            String seat = JOptionPane.showInputDialog(null, "Enter the seat");
+            String year = JOptionPane.showInputDialog(null, "Enter the booking year");
+            String month = JOptionPane.showInputDialog(null, "Enter the booking month");
+            String day = JOptionPane.showInputDialog(null, "Enter the booking day");
 
-            for (int i = 0; i < letters.length; i++) {
-                for (int j = 0; j < numbers.length; j++) {
-                    System.out.println(seats[i][j]);
+            String date = year + "-" + month + "-" + day;
+            if (!instanceModel().findAll().isEmpty()) {
+                for (Object object : instanceModel().findAll()) {
+                    Booking booking = (Booking) object;
+                    if (booking.getIdFlight() == flight.getId()){
+                        if (booking.getSeat().equalsIgnoreCase(seat)){
+                            JOptionPane.showMessageDialog(null, "The seat isn't available");
+                            return;
+                        }
+                    }
                 }
             }
-            String date = JOptionPane.showInputDialog(null, "Enter the date");
-//            String seat = JOptionPane.showInputDialog(null, "Enter the seat");
-            String seat = seatLetter + seatNumber;
-            int flightId = Integer.parseInt(JOptionPane.showInputDialog(null, "Enter the flight id"));
-            int passengerId = Integer.parseInt(JOptionPane.showInputDialog(null, "Enter the passenger id"));
 
             Booking booking = new Booking();
             booking.setBookingDate(date);
-            booking.setSeat(seat);
-            booking.setIdFlight(flightId);
-            booking.setIdPassenger(passengerId);
+            booking.setSeat(seat.toUpperCase());
+            booking.setIdFlight(flight.getId());
+            booking.setIdPassenger(passenger.getId());
+            booking.setFlight(flight);
+            booking.setPassenger(passenger);
 
             booking = (Booking) instanceModel().insert(booking);
-
             if (booking.getId() != 0) {
                 JOptionPane.showMessageDialog(null, booking);
             }
@@ -91,16 +90,16 @@ public class BookingController {
         try {
 //            int number = Integer.parseInt(JOptionPane.showInputDialog(null, listAllBookings() + "\nEnter id to update"));
 //            Booking booking = (Booking) instanceModel().findById(number);
-            Object[] options = Utils.listToArray(instanceModel().findAll());
-            System.out.println(options[0]);
+            Object[] bookings = Utils.listToArray(instanceModel().findAll());
             Booking booking = (Booking) JOptionPane.showInputDialog(null,
                     "Select booking to update",
                     "Update",
                     JOptionPane.QUESTION_MESSAGE,null,
-                    options,
-                    options[0]);
+                    bookings,
+                    bookings[0]);
             String date = JOptionPane.showInputDialog(null, "Enter the booking date",booking.getBookingDate());
-            String seat = JOptionPane.showInputDialog(null, "Enter the booking departure",booking.getSeat());
+            String seat = JOptionPane.showInputDialog(null, "Enter the booking seat",booking.getSeat());
+
             int flightId = Integer.parseInt(JOptionPane.showInputDialog(null, "Enter the flight id",booking.getIdFlight()));
             int passengerId = Integer.parseInt(JOptionPane.showInputDialog(null, "Enter the passenger id",booking.getIdPassenger()));
 
