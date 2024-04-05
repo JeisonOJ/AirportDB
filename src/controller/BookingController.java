@@ -65,14 +65,13 @@ public class BookingController {
             booking.setFlight(flight);
             booking.setPassenger(passenger);
             if (validSeatsAndCapacity(booking)) {
-//                booking = (Booking) instanceModel().insert(booking);
-                JOptionPane.showMessageDialog(null, booking);
+                booking = (Booking) instanceModel().insert(booking);
                 if (booking.getId() != 0) {
                     JOptionPane.showMessageDialog(null, booking);
                 }
             }
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Enter valid data");
+            JOptionPane.showMessageDialog(null, "Enter valid data" + e.getMessage());
         }
 
     }
@@ -155,20 +154,19 @@ public class BookingController {
         Booking booking = (Booking) object;
         List<Object> bookingsForId = instanceModel().bookingsForFlights(booking.getIdFlight());
         if (!bookingsForId.isEmpty()) {
-            if (bookingsForId.size() < booking.getFlight().getAirplane().getCapacity()) {
 
-                for (Object objectDB : bookingsForId) {
-                    Booking bookingDB = (Booking) objectDB;
-
+            for (Object objectDB : bookingsForId) {
+                Booking bookingDB = (Booking) objectDB;
+                if (bookingsForId.size() < bookingDB.getFlight().getAirplane().getCapacity()) {
                     if (booking.getSeat().equalsIgnoreCase(bookingDB.getSeat())) {
                         JOptionPane.showMessageDialog(null, "The seat isn't available");
                         isValid = false;
                         break;
                     }
+                }else{
+                    JOptionPane.showMessageDialog(null, "The flight capacity is full");
+                    isValid = false;
                 }
-            } else {
-                JOptionPane.showMessageDialog(null, "The flight capacity is full");
-                isValid = false;
             }
         }
         return isValid;
