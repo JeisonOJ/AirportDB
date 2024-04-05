@@ -170,4 +170,33 @@ public class BookingModel implements CRUD {
         return booking;
     }
 
+    public List<Object> bookingsForFlights(int id) {
+        Connection connection = ConfigDB.openConnection();
+        List<Object> bookings = new ArrayList<>();
+        String sql = "SELECT * FROM bookings\n" +
+                "INNER JOIN flights ON bookings.id_flight = flights.id \n" +
+                "INNER JOIN airplanes ON flights.id_airplane = airplanes.id\n" +
+                "WHERE bookings.id_flight= ? ;";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                Flight flight = new Flight(rs.getInt("flights.id"),rs.getString("destination"), rs.getString("departure_date"),rs.getString("departure_time"),rs.getInt("id_airplane"));
+                Airplane airplane = new Airplane(rs.getInt("airplanes.id"),rs.getString("model"),rs.getInt("capacity"));
+                Booking booking = new Booking(rs.getInt("bookings.id"),rs.getString("booking_date"),rs.getString("seat"),rs.getInt("id_passenger"), rs.getInt("id_flight"));
+                flight.setAirplane(airplane);
+                booking.setFlight(flight);
+                bookings.add(booking);
+            }
+
+        } catch (SQLException e) {
+            System.out.println("bookingsForFlights: error in database\n" + e.getMessage());
+        } finally {
+            ConfigDB.closeConnection();
+        }
+        return bookings;
+    }
+
 }

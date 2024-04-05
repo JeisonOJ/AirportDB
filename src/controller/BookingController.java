@@ -7,6 +7,8 @@ import model.BookingModel;
 import utils.Utils;
 
 import javax.swing.*;
+import java.awt.print.Book;
+import java.util.List;
 
 public class BookingController {
 
@@ -40,13 +42,13 @@ public class BookingController {
             Passenger passenger = (Passenger) JOptionPane.showInputDialog(null,
                     "Select passenger",
                     "Passengers",
-                    JOptionPane.QUESTION_MESSAGE,null,
+                    JOptionPane.QUESTION_MESSAGE, null,
                     passengers,
                     passengers[0]);
             Flight flight = (Flight) JOptionPane.showInputDialog(null,
                     "Select flight",
                     "Flights",
-                    JOptionPane.QUESTION_MESSAGE,null,
+                    JOptionPane.QUESTION_MESSAGE, null,
                     flights,
                     flights[0]);
             String seat = JOptionPane.showInputDialog(null, "Enter the seat");
@@ -55,18 +57,6 @@ public class BookingController {
             String day = JOptionPane.showInputDialog(null, "Enter the booking day");
 
             String date = year + "-" + month + "-" + day;
-            if (!instanceModel().findAll().isEmpty()) {
-                for (Object object : instanceModel().findAll()) {
-                    Booking booking = (Booking) object;
-                    if (booking.getIdFlight() == flight.getId()){
-                        if (booking.getSeat().equalsIgnoreCase(seat)){
-                            JOptionPane.showMessageDialog(null, "The seat isn't available");
-                            return;
-                        }
-                    }
-                }
-            }
-
             Booking booking = new Booking();
             booking.setBookingDate(date);
             booking.setSeat(seat.toUpperCase());
@@ -74,12 +64,13 @@ public class BookingController {
             booking.setIdPassenger(passenger.getId());
             booking.setFlight(flight);
             booking.setPassenger(passenger);
-
-            booking = (Booking) instanceModel().insert(booking);
-            if (booking.getId() != 0) {
+            if (validSeatsAndCapacity(booking)) {
+//                booking = (Booking) instanceModel().insert(booking);
                 JOptionPane.showMessageDialog(null, booking);
+                if (booking.getId() != 0) {
+                    JOptionPane.showMessageDialog(null, booking);
+                }
             }
-
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Enter valid data");
         }
@@ -94,14 +85,14 @@ public class BookingController {
             Booking booking = (Booking) JOptionPane.showInputDialog(null,
                     "Select booking to update",
                     "Update",
-                    JOptionPane.QUESTION_MESSAGE,null,
+                    JOptionPane.QUESTION_MESSAGE, null,
                     bookings,
                     bookings[0]);
-            String date = JOptionPane.showInputDialog(null, "Enter the booking date",booking.getBookingDate());
-            String seat = JOptionPane.showInputDialog(null, "Enter the booking seat",booking.getSeat());
+            String date = JOptionPane.showInputDialog(null, "Enter the booking date", booking.getBookingDate());
+            String seat = JOptionPane.showInputDialog(null, "Enter the booking seat", booking.getSeat());
 
-            int flightId = Integer.parseInt(JOptionPane.showInputDialog(null, "Enter the flight id",booking.getIdFlight()));
-            int passengerId = Integer.parseInt(JOptionPane.showInputDialog(null, "Enter the passenger id",booking.getIdPassenger()));
+            int flightId = Integer.parseInt(JOptionPane.showInputDialog(null, "Enter the flight id", booking.getIdFlight()));
+            int passengerId = Integer.parseInt(JOptionPane.showInputDialog(null, "Enter the passenger id", booking.getIdPassenger()));
 
             booking.setBookingDate(date);
             booking.setSeat(seat);
@@ -157,6 +148,30 @@ public class BookingController {
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Enter a number");
         }
+    }
+
+    public static boolean validSeatsAndCapacity(Object object) {
+        boolean isValid = true;
+        Booking booking = (Booking) object;
+        List<Object> bookingsForId = instanceModel().bookingsForFlights(booking.getIdFlight());
+        if (!bookingsForId.isEmpty()) {
+            if (bookingsForId.size() < booking.getFlight().getAirplane().getCapacity()) {
+
+                for (Object objectDB : bookingsForId) {
+                    Booking bookingDB = (Booking) objectDB;
+
+                    if (booking.getSeat().equalsIgnoreCase(bookingDB.getSeat())) {
+                        JOptionPane.showMessageDialog(null, "The seat isn't available");
+                        isValid = false;
+                        break;
+                    }
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "The flight capacity is full");
+                isValid = false;
+            }
+        }
+        return isValid;
     }
 
     public static void menu() {
