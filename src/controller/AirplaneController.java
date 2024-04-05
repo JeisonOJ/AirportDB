@@ -56,14 +56,13 @@ public class AirplaneController {
 
     public static void updateAirplane() {
         try {
-            Object[] options = Utils.listToArray(instanceModel().findAll());
-            System.out.println(options[0]);
+            Object[] airplanes = Utils.listToArray(instanceModel().findAll());
             Airplane airplane = (Airplane) JOptionPane.showInputDialog(null,
                     "Select airplane to update",
                     "Update",
                     JOptionPane.QUESTION_MESSAGE,null,
-                    options,
-                    options[0]);
+                    airplanes,
+                    airplanes[0]);
 //            int number = Integer.parseInt(JOptionPane.showInputDialog(null, listAllAirplanes() + "\nEnter id to update"));
 //            Airplane airplane = (Airplane) instanceModel().findById(number);
             String model = JOptionPane.showInputDialog(null, "Enter the airplane model", airplane.getModel());

@@ -56,14 +56,13 @@ public class PassengerController {
         try {
 //            int number = Integer.parseInt(JOptionPane.showInputDialog(null, listAllPassengers() + "\nEnter id to update"));
 //            Passenger passenger = (Passenger) instanceModel().findById(number);
-            Object[] options = Utils.listToArray(instanceModel().findAll());
-            System.out.println(options[0]);
+            Object[] passengers = Utils.listToArray(instanceModel().findAll());
             Passenger passenger = (Passenger) JOptionPane.showInputDialog(null,
                     "Select passenger to update",
                     "Update",
                     JOptionPane.QUESTION_MESSAGE,null,
-                    options,
-                    options[0]);
+                    passengers,
+                    passengers[0]);
             String name = JOptionPane.showInputDialog(null, "Enter the passenger name",passenger.getName());
             String lastName = JOptionPane.showInputDialog(null, "Enter the passenger last name",passenger.getLastName());
             String identity = JOptionPane.showInputDialog(null, "Enter the passenger identity",passenger.getIdentity());
