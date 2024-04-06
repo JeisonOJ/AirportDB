@@ -24,7 +24,7 @@ public class BookingModel implements CRUD {
         try {
             PreparedStatement ps = connection.prepareStatement(sql,PreparedStatement.RETURN_GENERATED_KEYS);
             ps.setString(1,booking.getBookingDate());
-            ps.setString(2,booking.getSeat());
+            ps.setInt(2,booking.getSeat());
             ps.setInt(3,booking.getIdPassenger());
             ps.setInt(4,booking.getIdFlight());
 
@@ -55,7 +55,7 @@ public class BookingModel implements CRUD {
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setString(1,booking.getBookingDate());
-            ps.setString(2,booking.getSeat());
+            ps.setInt(2,booking.getSeat());
             ps.setInt(3,booking.getIdPassenger());
             ps.setInt(4,booking.getIdFlight());
             ps.setInt(5, booking.getId());
@@ -106,7 +106,7 @@ public class BookingModel implements CRUD {
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
-                bookings.add(new Booking(rs.getInt("id"), rs.getString("booking_date"), rs.getString("seat"), rs.getInt("id_passenger"), rs.getInt("id_flight")));
+                bookings.add(new Booking(rs.getInt("id"), rs.getString("booking_date"), rs.getInt("seat"), rs.getInt("id_passenger"), rs.getInt("id_flight")));
             }
 
         } catch (SQLException e) {
@@ -128,7 +128,7 @@ public class BookingModel implements CRUD {
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
-                booking = new Booking(rs.getInt("id"), rs.getString("booking_date"), rs.getString("seat"), rs.getInt("id_passenger"), rs.getInt("id_flight"));
+                booking = new Booking(rs.getInt("id"), rs.getString("booking_date"), rs.getInt("seat"), rs.getInt("id_passenger"), rs.getInt("id_flight"));
             }
 
         } catch (SQLException e) {
@@ -156,7 +156,7 @@ public class BookingModel implements CRUD {
                 Flight flight = new Flight(rs.getInt("flights.id"),rs.getString("destination"), rs.getString("departure_date"),rs.getString("departure_time"),rs.getInt("id_airplane"));
                 Passenger passenger = new Passenger(rs.getInt("passengers.id"),rs.getString("name"),rs.getString("last_name"),rs.getString("identity"));
                 Airplane airplane = new Airplane(rs.getInt("airplanes.id"),rs.getString("model"),rs.getInt("capacity"));
-                booking = new Booking(rs.getInt("bookings.id"),rs.getString("booking_date"),rs.getString("seat"),rs.getInt("id_passenger"), rs.getInt("id_flight"));
+                booking = new Booking(rs.getInt("bookings.id"),rs.getString("booking_date"),rs.getInt("seat"),rs.getInt("id_passenger"), rs.getInt("id_flight"));
                 flight.setAirplane(airplane);
                 booking.setFlight(flight);
                 booking.setPassenger(passenger);
@@ -185,7 +185,7 @@ public class BookingModel implements CRUD {
             while (rs.next()) {
                 Flight flight = new Flight(rs.getInt("flights.id"),rs.getString("destination"), rs.getString("departure_date"),rs.getString("departure_time"),rs.getInt("id_airplane"));
                 Airplane airplane = new Airplane(rs.getInt("airplanes.id"),rs.getString("model"),rs.getInt("capacity"));
-                Booking booking = new Booking(rs.getInt("bookings.id"),rs.getString("booking_date"),rs.getString("seat"),rs.getInt("id_passenger"), rs.getInt("id_flight"));
+                Booking booking = new Booking(rs.getInt("bookings.id"),rs.getString("booking_date"),rs.getInt("seat"),rs.getInt("id_passenger"), rs.getInt("id_flight"));
                 flight.setAirplane(airplane);
                 booking.setFlight(flight);
                 bookings.add(booking);

@@ -2,7 +2,6 @@ package controller;
 
 import entity.Airplane;
 import entity.Flight;
-import entity.Passenger;
 import model.FlightModel;
 import utils.Utils;
 

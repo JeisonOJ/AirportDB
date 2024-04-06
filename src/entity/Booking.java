@@ -3,7 +3,7 @@ package entity;
 public class Booking {
     private int id;
     private String bookingDate;
-    private String seat;
+    private int seat;
     private int idPassenger;
     private int idFlight;
     private Passenger passenger;
@@ -11,7 +11,7 @@ public class Booking {
 
     public Booking(){}
 
-    public Booking(int id, String bookingDate, String seat, int idPassenger, int idFlight) {
+    public Booking(int id, String bookingDate, int seat, int idPassenger, int idFlight) {
         this.id = id;
         this.bookingDate = bookingDate;
         this.seat = seat;
@@ -35,11 +35,11 @@ public class Booking {
         this.bookingDate = bookingDate;
     }
 
-    public String getSeat() {
+    public int getSeat() {
         return seat;
     }
 
-    public void setSeat(String seat) {
+    public void setSeat(int seat) {
         this.seat = seat;
     }
 
