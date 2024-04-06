@@ -1,10 +1,14 @@
 package entity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Airplane {
 
     private int id;
     private String model;
     private int capacity;
+    private final List<Integer> seats = new ArrayList<>();
 
     public Airplane(){}
 
@@ -12,6 +16,7 @@ public class Airplane {
         this.id = id;
         this.model = model;
         this.capacity = capacity;
+        setSeats(capacity);
     }
 
     public int getId() {
@@ -35,7 +40,18 @@ public class Airplane {
     }
 
     public void setCapacity(int capacity) {
+        setSeats(capacity);
         this.capacity = capacity;
+    }
+
+    public void setSeats(int capacity){
+        for (int seat = 1; seat <= capacity; seat++) {
+            seats.add(seat);
+        }
+    }
+
+    public List<Integer> getSeats() {
+        return seats;
     }
 
     @Override
@@ -43,6 +59,7 @@ public class Airplane {
         return "Airplane" + "\n Id: " + id +
                 "\n Model: " + model +
                 "\n Capacity: " + capacity +
+                "\n Seats: " + getSeats().size() +
                 "\n";
     }
 }

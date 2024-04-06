@@ -7,7 +7,7 @@ import model.BookingModel;
 import utils.Utils;
 
 import javax.swing.*;
-import java.awt.print.Book;
+import java.util.ArrayList;
 import java.util.List;
 
 public class BookingController {
@@ -51,6 +51,7 @@ public class BookingController {
                     JOptionPane.QUESTION_MESSAGE, null,
                     flights,
                     flights[0]);
+            seatsAvailable(flight.getId());
             String seat = JOptionPane.showInputDialog(null, "Enter the seat");
             String year = JOptionPane.showInputDialog(null, "Enter the booking year");
             String month = JOptionPane.showInputDialog(null, "Enter the booking month");
@@ -64,7 +65,7 @@ public class BookingController {
             booking.setIdPassenger(passenger.getId());
             booking.setFlight(flight);
             booking.setPassenger(passenger);
-            if (validSeatsAndCapacity(booking)) {
+            if (validateSeatsAndCapacity(booking)) {
                 booking = (Booking) instanceModel().insert(booking);
                 if (booking.getId() != 0) {
                     JOptionPane.showMessageDialog(null, booking);
@@ -149,7 +150,7 @@ public class BookingController {
         }
     }
 
-    public static boolean validSeatsAndCapacity(Object object) {
+    public static boolean validateSeatsAndCapacity(Object object) {
         boolean isValid = true;
         Booking booking = (Booking) object;
         List<Object> bookingsForId = instanceModel().bookingsForFlights(booking.getIdFlight());
@@ -170,6 +171,27 @@ public class BookingController {
             }
         }
         return isValid;
+    }
+
+    public static Object[] seatsAvailable(int id){
+        List<Object> bookingsForFlight = instanceModel().bookingsForFlights(id);
+        Booking booking = (Booking) bookingsForFlight.get(1);
+        List<Integer> allSeats = booking.getFlight().getAirplane().getSeats();
+
+        if (!bookingsForFlight.isEmpty()){
+            for (Object object: bookingsForFlight){
+                Booking bookingForFlight = (Booking) object;
+                for (Integer integer: allSeats){
+                    System.out.println(integer);
+                    System.out.println(bookingForFlight.getSeat());
+                    if (integer == bookingForFlight.getSeat()){
+                        allSeats.remove(integer);
+                    }
+                }
+            }
+        }
+
+        return Utils.listToArray(allSeats);
     }
 
     public static void menu() {

@@ -36,15 +36,16 @@ public class AirplaneController {
         try {
             String model = JOptionPane.showInputDialog(null, "Enter the airplane model");
             int capacity = Integer.parseInt(JOptionPane.showInputDialog(null, "Enter the airplane capacity"));
-
+            if (capacity<=0){
+                JOptionPane.showMessageDialog(null, "capacity should be over 0");
+                return;
+            }
             Airplane airplane = new Airplane();
             airplane.setModel(model);
             airplane.setCapacity(capacity);
-
             airplane = (Airplane) instanceModel().insert(airplane);
 
             if (airplane.getId() != 0) {
-
                 JOptionPane.showMessageDialog(null, airplane);
             }
 
@@ -67,6 +68,10 @@ public class AirplaneController {
 //            Airplane airplane = (Airplane) instanceModel().findById(number);
             String model = JOptionPane.showInputDialog(null, "Enter the airplane model", airplane.getModel());
             int capacity = Integer.parseInt(JOptionPane.showInputDialog(null, "Enter the airplane capacity", airplane.getCapacity()));
+            if (capacity<=0){
+                JOptionPane.showMessageDialog(null, "capacity should be over 0");
+                return;
+            }
             airplane.setModel(model);
             airplane.setCapacity(capacity);
             if (instanceModel().update(airplane)) {
