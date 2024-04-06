@@ -131,4 +131,24 @@ public class PassengerModel implements CRUD {
         }
         return passenger;
     }
+    public Object findByName(String name) {
+        Connection connection = ConfigDB.openConnection();
+        Passenger passenger = null;
+        String sql = "SELECT * FROM passengers WHERE name like ?";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setString(1, "%"+name+"%");
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                passenger = new Passenger(rs.getInt("id"),rs.getString("name"), rs.getString("last_name"),rs.getString("identity"));
+            }
+
+        } catch (SQLException e) {
+            System.out.println("FindById: error in database\n" + e.getMessage());
+        } finally {
+            ConfigDB.closeConnection();
+        }
+        return passenger;
+    }
 }

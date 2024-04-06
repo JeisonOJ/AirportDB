@@ -60,12 +60,12 @@ public class PassengerController {
             Passenger passenger = (Passenger) JOptionPane.showInputDialog(null,
                     "Select passenger to update",
                     "Update",
-                    JOptionPane.QUESTION_MESSAGE,null,
+                    JOptionPane.QUESTION_MESSAGE, null,
                     passengers,
                     passengers[0]);
-            String name = JOptionPane.showInputDialog(null, "Enter the passenger name",passenger.getName());
-            String lastName = JOptionPane.showInputDialog(null, "Enter the passenger last name",passenger.getLastName());
-            String identity = JOptionPane.showInputDialog(null, "Enter the passenger identity",passenger.getIdentity());
+            String name = JOptionPane.showInputDialog(null, "Enter the passenger name", passenger.getName());
+            String lastName = JOptionPane.showInputDialog(null, "Enter the passenger last name", passenger.getLastName());
+            String identity = JOptionPane.showInputDialog(null, "Enter the passenger identity", passenger.getIdentity());
 
             passenger.setName(name);
             passenger.setLastName(lastName);
@@ -97,7 +97,7 @@ public class PassengerController {
 
     public static void findPassengerById() {
         try {
-            int number = Integer.parseInt(JOptionPane.showInputDialog(null, "Enter id to find an passenger"));
+            int number = Integer.parseInt(JOptionPane.showInputDialog(null, "Enter id to find a passenger"));
             Passenger passenger = (Passenger) instanceModel().findById(number);
             if (passenger != null) {
                 JOptionPane.showMessageDialog(null, passenger);
@@ -109,6 +109,18 @@ public class PassengerController {
         }
     }
 
+    public static void findPassengerByName() {
+
+        String name = JOptionPane.showInputDialog(null, "Enter the name to find a passenger");
+        Passenger passenger = (Passenger) instanceModel().findByName(name);
+        if (passenger != null) {
+            JOptionPane.showMessageDialog(null, passenger);
+        } else {
+            JOptionPane.showMessageDialog(null, "This passenger doesn't exist");
+        }
+
+    }
+
     public static void menu() {
         String option;
         String message = """
@@ -117,8 +129,9 @@ public class PassengerController {
                 2. Create passenger.
                 3. Update passenger.
                 4. Delete passenger.
-                5. Find passenger.
-                6. Exit.
+                5. Find passenger by ID.
+                6. Find passenger by name.
+                7. Exit.
                                 
                 ENTER THE OPTION TO CONTINUE...
                 """;
@@ -143,8 +156,11 @@ public class PassengerController {
                 case "5":
                     findPassengerById();
                     break;
+                case "6":
+                    findPassengerByName();
+                    break;
             }
-        } while (!option.equals("6"));
+        } while (!option.equals("7"));
     }
 
 }

@@ -75,7 +75,7 @@ public class FlightModel implements CRUD {
     public boolean delete(int id) {
         boolean isDeleted = false;
         Connection connection = ConfigDB.openConnection();
-        String sql = "DELETE FROM flights WHERE id = ?";
+        String sql = "DELETE FROM flights WHERE id = ?;";
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setInt(1, id);
@@ -119,10 +119,31 @@ public class FlightModel implements CRUD {
     public Object findById(int id) {
         Connection connection = ConfigDB.openConnection();
         Flight flight = null;
-        String sql = "SELECT * FROM flights WHERE id = ?";
+        String sql = "SELECT * FROM flights WHERE id = ?;";
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                flight = new Flight(rs.getInt("id"),rs.getString("destination"), rs.getString("departure_date"),rs.getString("departure_time"),rs.getInt("id_airplane"));
+            }
+
+        } catch (SQLException e) {
+            System.out.println("FindById: error in database\n" + e.getMessage());
+        } finally {
+            ConfigDB.closeConnection();
+        }
+        return flight;
+    }
+
+    public Object findByDestination(String destination) {
+        Connection connection = ConfigDB.openConnection();
+        Flight flight = null;
+        String sql = "SELECT * FROM flights WHERE destination like ?;";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setString(1, "%"+destination+"%");
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
